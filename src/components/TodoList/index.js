@@ -1,34 +1,31 @@
 import React, { Component, Fragment } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { Creators as TodosActions } from "../../strore/ducks/todos";
 
-export default class TodoList extends Component {
-  state = {
-    todos: []
-  };
+const TodoList = ({ todos, addTodo, removeTodo }) => (
+  <Fragment>
+    <ul>
+      {todos.map(todo => (
+        <li key={todo.id} onClick={() => removeTodo(todo.id)}>
+          {todo.text}
+        </li>
+      ))}
+    </ul>
+    <button type="button" onClick={() => addTodo("Novo todo")}>
+      Adicionar todo
+    </button>
+  </Fragment>
+);
 
-  addTodo = () => {
-    this.setState({
-      todos: [...this.state.todos, { id: Math.random(), text: "deploy app" }]
-    });
-  };
+const mapStateToProps = state => ({
+  todos: state.todos
+});
 
-  removeTodo = id => {
-    this.setState({ todos: this.state.todos.filter(todo => todo.id !== id) });
-  };
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(TodosActions, dispatch);
 
-  render() {
-    return (
-      <Fragment>
-        <ul>
-          {this.state.todos.map(todo => (
-            <li key={todo.id} onClick={() => this.removeTodo(todo.id)}>
-              {todo.text}
-            </li>
-          ))}
-        </ul>
-        <button type="button" onClick={this.addTodo}>
-          Adicionar todo
-        </button>
-      </Fragment>
-    );
-  }
-}
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TodoList);

@@ -1,0 +1,7 @@
+{
+  "todos": [
+    { "id": 0, "text": "Fazer Café" },
+    { "id": 1, "text": "Estudar" },
+    { "id": 2, "text": "Investir" }
+  ]
+}
